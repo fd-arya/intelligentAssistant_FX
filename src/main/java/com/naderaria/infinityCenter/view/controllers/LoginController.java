@@ -1,10 +1,6 @@
 package com.naderaria.infinityCenter.view.controllers;
 
 
-import com.naderaria.infinityCenter.business.service.GeneralService;
-import com.naderaria.infinityCenter.business.service.interfaces.IGeneralService;
-import com.naderaria.infinityCenter.dao.interfaces.IQueryNames;
-import com.naderaria.infinityCenter.main.InfinityCenter;
 import com.naderaria.infinityCenter.model.account.Login;
 import com.naderaria.infinityCenter.model.account.UserNamePassword;
 import com.naderaria.infinityCenter.util.FormStateOnUser;
@@ -49,11 +45,11 @@ public class LoginController implements IControllerManager<Login>{
                      //mainApplication.changedScene();
                        mainForm.setFormStateOnUser(FormStateOnUser.NORMAL_FORM);
                        mainForm.getMainPane().getChildren().clear();
-                       mainForm.getParent().getMainStage().setScene( mainForm.getScene() );
+                      // mainForm.getParent().getMainStage().setScene( mainForm.getScene() );
                      //return VariablesDefault.MSG_SUCCESSFULLY_LOGIN;
                    }
               }catch (Exception e){
-                    InfinityCenter.showWarning("sorry can't run command, because connection is lost \n"+e );
+                    mainForm.showWarning("sorry can't run command, because connection is lost \n"+e );
               }
         }
         return VariablesDefault.MSG_WRONG_FIND_USER;

@@ -9,7 +9,4 @@ import java.util.Locale;
  */
 public interface IUiManager {
 
-    public Scene getScene() throws Exception;
-
-    public Locale getLocale() ;
 }

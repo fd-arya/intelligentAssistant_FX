@@ -2,48 +2,86 @@ package com.naderaria.infinityCenter.view.forms;
 
 
 
-import com.naderaria.infinityCenter.main.InfinityCenter;
+import com.naderaria.infinityCenter.business.service.GeneralService;
+import com.naderaria.infinityCenter.dao.interfaces.IQueryNames;
+import com.naderaria.infinityCenter.model.account.Account;
 import com.naderaria.infinityCenter.util.FormStateOnUser;
+import com.naderaria.infinityCenter.util.VariablesDefault;
+import com.naderaria.infinityCenter.view.controllers.Session;
+import com.naderaria.infinityCenter.view.forms.formsItems.menus.BundleLoader;
 import com.naderaria.infinityCenter.view.forms.formsItems.menus.MainMenu;
 import com.naderaria.infinityCenter.view.forms.mainFormPane.AbstractPane;
 import com.naderaria.infinityCenter.view.forms.mainFormPane.AccountPane;
 import com.naderaria.infinityCenter.view.forms.mainFormPane.LoginPane;
 import com.naderaria.infinityCenter.view.forms.mainFormPane.RegisteringPane;
 import com.naderaria.infinityCenter.view.interfaces.IUiManager;
+import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import java.util.Locale;
 
 /**
  * Created by NaderAria on 5/4/2017.
  */
-public class MainForm implements IUiManager {
+public class MainForm  extends Application  {
 
-    private InfinityCenter parent;
-    private FormStateOnUser formStateOnUser;
+
+    private Stage mainStage;
+    private String stageTitle;
     private Locale locale;
+    private FormStateOnUser formStateOnUser;
     private MainMenu menu;
     private Pane mainPane;
     private Pane content;
 
-    public MainForm( InfinityCenter parent ){
-        this.parent = parent;
+
+    public Stage getMainStage(){
+
+        if( mainStage == null ){
+            mainStage = new Stage();
+        }
+        return mainStage;
+    }
+    private void setMainStage( Stage mainStage ) throws NullPointerException{
+
+        if( mainStage != null ){
+            this.mainStage = mainStage;
+        }else{ throw new NullPointerException("mainStage is null"); }
     }
 
-    public final InfinityCenter getParent(){ return parent; }
+    public final String getStageTitle(){
+        if( stageTitle == null || stageTitle.isEmpty() ){
+            stageTitle =BundleLoader.getValue( VariablesDefault.INFINITY_CENTER_TITLE , getLocale() ) + "  _   ";
+        }
+        return stageTitle;
+    }
+    public final void setStageTitle( String stageTitleKey ){
+        this.stageTitle = getStageTitle()+ BundleLoader.getValue( stageTitleKey , getLocale() );
+    }
+
+    public Locale getLocale(){
+
+        if( locale == null ){
+            locale = new Locale( VariablesDefault.EN , VariablesDefault.US );
+        }
+        return locale;
+    }
+    public void setLocale( Locale locale ) throws NullPointerException{
+
+        if( locale != null ){
+            this.locale = locale;
+        }else { throw new NullPointerException("local is null"); }
+
+    }
 
     public FormStateOnUser getFormStateOnUser(){ return formStateOnUser; }
     public void setFormStateOnUser( FormStateOnUser formStateOnUser ){ this.formStateOnUser = formStateOnUser; }
-
-    @Override
-    public Locale getLocale(){
-        if( locale != null ){ return locale; }
-        throw new NullPointerException("locale is null ");
-    }
-    public void setLocale( Locale locale ){ this.locale = locale; }
 
     public MainMenu getMenu(){
 
@@ -58,7 +96,35 @@ public class MainForm implements IUiManager {
 
 
 
+    public static void main(String[] args) { launch(args); }
+
     @Override
+    public void start(Stage primaryStage) throws Exception {
+        setMainStage( primaryStage );
+        if( checkDbHaveUser()){
+            setFormStateOnUser( FormStateOnUser.LOGIN_FORM );
+        }else{
+            setFormStateOnUser( FormStateOnUser.REGISTERING_FORM );
+        }
+       // setFormStateOnUser( FormStateOnUser.NORMAL_FORM );
+        initializeMainFormUI();
+    }
+
+    private boolean checkDbHaveUser() throws Exception {
+        return ( new GeneralService().fetchCount( Account.class , IQueryNames.ACCOUNT_SELECT_EXISTS_ACCOUNT_KEY )  ) > 0L ;
+    }
+    private void initializeMainFormUI() throws Exception {
+
+
+        getMainStage().setResizable(true);
+        getMainStage().setAlwaysOnTop( true );
+        getMainStage().setTitle( getStageTitle() );
+        getMainStage().setScene( getScene() );
+        getMainStage().sizeToScene();
+        getMainStage().show();
+
+    }
+
     public Scene getScene() throws Exception {
 
         if( getFormStateOnUser().equals( FormStateOnUser.NORMAL_FORM) ){
@@ -101,9 +167,6 @@ public class MainForm implements IUiManager {
     public Pane getContent(){ return content; }
     public void setContent( Pane content ){ this.content = content; }
 
-
-
-
     private StackPane getSidBarPane(){
 
         StackPane pane = new StackPane();
@@ -117,6 +180,51 @@ public class MainForm implements IUiManager {
 
         return pane;
     }
+
+    public static void showWarning( String  message ){
+
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error Dialog");
+        alert.setHeaderText("Look, an Error Dialog");
+        alert.setContentText(message);
+
+        alert.showAndWait();
+    }
+
+    public static void exit(){
+
+        Platform.exit();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
