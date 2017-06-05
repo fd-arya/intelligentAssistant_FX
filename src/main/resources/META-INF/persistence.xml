@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.1">
+
+    <persistence-unit name="infinityCenter" transaction-type="RESOURCE_LOCAL" >
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>com.naderaria.infinityCenter.model.abstracts.BaseEntity</class>
+        <class>com.naderaria.infinityCenter.model.abstracts.BaseSalary</class>
+        <class>com.naderaria.infinityCenter.model.abstracts.Fund</class>
+        <class>com.naderaria.infinityCenter.model.account.Account</class>
+        <class>com.naderaria.infinityCenter.model.account.Address</class>
+        <class>com.naderaria.infinityCenter.model.account.CallInfo</class>
+        <class>com.naderaria.infinityCenter.model.account.Log</class>
+        <class>com.naderaria.infinityCenter.model.account.Login</class>
+        <class>com.naderaria.infinityCenter.model.account.UserNamePassword</class>
+        <class>com.naderaria.infinityCenter.model.financial.Cost</class>
+        <class>com.naderaria.infinityCenter.model.financial.CostManager</class>
+        <class>com.naderaria.infinityCenter.model.financial.CurrentFund</class>
+        <class>com.naderaria.infinityCenter.model.financial.Demand</class>
+        <class>com.naderaria.infinityCenter.model.financial.DemandManager</class>
+        <class>com.naderaria.infinityCenter.model.financial.FactorDetails</class>
+        <class>com.naderaria.infinityCenter.model.financial.FundManager</class>
+        <class>com.naderaria.infinityCenter.model.financial.ReversFund</class>
+        <class>com.naderaria.infinityCenter.model.financial.Salary</class>
+        <class>com.naderaria.infinityCenter.model.financial.SalaryManager</class>
+        <class>com.naderaria.infinityCenter.model.medicine.Drug</class>
+        <class>com.naderaria.infinityCenter.model.medicine.DrugManager</class>
+        <class>com.naderaria.infinityCenter.model.medicine.MedicineInfo</class>
+        <class>com.naderaria.infinityCenter.model.medicine.MedicineTest</class>
+        <class>com.naderaria.infinityCenter.model.medicine.MedicineTestManager</class>
+        <class>com.naderaria.infinityCenter.model.medicine.MedicineVisit</class>
+        <class>com.naderaria.infinityCenter.model.reminder.Reminder</class>
+        <class>com.naderaria.infinityCenter.model.reminder.ReminderManager</class>
+        <class>com.naderaria.infinityCenter.model.scrum.Goal</class>
+        <class>com.naderaria.infinityCenter.model.scrum.GoalManager</class>
+        <class>com.naderaria.infinityCenter.model.scrum.Sprint</class>
+        <class>com.naderaria.infinityCenter.model.scrum.Task</class>
+
+        <properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
+            <property name="hibernate.connection.url" value="jdbc:h2:~/JavaProjects/projectX/.dbFiles/infinityCenter"/>
+            <property name="hibernate.connection.driver_class" value="org.h2.Driver"/>
+            <property name="hibernate.connection.username" value="sa"/>
+            <property name="hibernate.connection.password" value="sa"/>
+            <property name="show_sql" value="true" />
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+        </properties>
+
+    </persistence-unit>
+
+</persistence>
